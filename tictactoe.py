@@ -1,30 +1,33 @@
-import random
-
+# Function to print the current board state
 def print_board(board):
     for row in board:
         print(" | ".join(row))
         print("-" * 5)
 
+# Function to check if a player has won
 def check_winner(board, player):
+    # Check rows
     for row in board:
         if all(cell == player for cell in row):
             return True
-
+    # Check columns
     for col in range(3):
         if all(board[row][col] == player for row in range(3)):
             return True
-
+    # Check diagonals
     if all(board[i][i] == player for i in range(3)) or all(board[i][2-i] == player for i in range(3)):
         return True
-
     return False
 
+# Function to check if the board is full
 def is_board_full(board):
     return all(cell != " " for row in board for cell in row)
 
+# Function to get available moves
 def get_available_moves(board):
     return [(row, col) for row in range(3) for col in range(3) if board[row][col] == " "]
 
+# Minimax algorithm for optimal move selection
 def minimax(board, depth, is_maximizing, player):
     if check_winner(board, 'X'):
         return -10 + depth
@@ -50,6 +53,7 @@ def minimax(board, depth, is_maximizing, player):
             best_score = min(score, best_score)
         return best_score
 
+# Function to get bot's move using minimax algorithm
 def get_bot_move(board):
     best_move = None
     best_score = float('-inf')
@@ -62,6 +66,7 @@ def get_bot_move(board):
             best_move = move
     return best_move
 
+# Main function to play Tic Tac Toe
 def play_tic_tac_toe():
     board = [[" " for _ in range(3)] for _ in range(3)]
     current_player = 'X'
@@ -90,4 +95,5 @@ def play_tic_tac_toe():
         else:
             print("That cell is already taken!")
 
+# Start the game
 play_tic_tac_toe()
